@@ -1,0 +1,191 @@
+// Create intro timeline elements
+let introtl = gsap.timeline((pause = true));
+
+//Scramble
+const scramble = document.querySelectorAll(".scramble");
+
+// Create SplitType elements
+const countdownTitle = new SplitType(".countdown_title", { types: "chars" });
+const formLabel = new SplitType(".form-label", { types: "chars" });
+const formLabel2 = new SplitType(".form-label2", { types: "chars" });
+const textRotate = new SplitType(".text_rotate", { types: "chars" });
+const footerTitle = new SplitType(".footer_title", { types: "chars" });
+const clockNumber = new SplitType(".clock-number", { types: "chars" });
+const clockId = new SplitType(".clock-id", { types: "chars" });
+const loaderNumber = new SplitType(".loader_number", { types: "chars" });
+
+window.addEventListener("DOMContentLoaded", (event) => {
+  // variables
+});
+
+let customEase =
+  "M0,0,C0,0,0.13,0.34,0.238,0.442,0.305,0.506,0.322,0.514,0.396,0.54,0.478,0.568,0.468,0.56,0.522,0.584,0.572,0.606,0.61,0.719,0.714,0.826,0.798,0.912,1,1,1,1";
+let counter = {
+  value: 0,
+};
+let loaderDuration = 10;
+
+// If not a first time visit in this tab
+if (sessionStorage.getItem("visited") !== null) {
+  loaderDuration = 4;
+  counter = {
+    value: 65,
+  };
+}
+sessionStorage.setItem("visited", "true");
+
+function updateLoaderText() {
+  let progress = Math.round(counter.value);
+  $(".loader_number").text(progress);
+}
+function endLoaderAnimation() {
+  $(".trigger").click();
+}
+
+let tl = gsap.timeline({
+  onComplete: () => {},
+});
+
+tl.to(counter, {
+  value: 100,
+  onUpdate: updateLoaderText,
+  duration: loaderDuration,
+  ease: CustomEase.create("custom", customEase),
+});
+tl.to(
+  ".loader_progress",
+  {
+    width: "100%",
+    duration: loaderDuration,
+    ease: CustomEase.create("custom", customEase),
+  },
+  0
+);
+
+//LOADING FINISHES--------------------------------------------------------------
+
+tl.to(".loader_complete", { ease: "expo.Out", delay: 0.1, width: "100%" });
+
+tl.to(
+  ".loader_number",
+  {
+    yPercent: -300,
+    stagger: {
+      each: 0.1,
+      //amount: 0.15,
+      from: "start",
+    },
+  },
+  "<0.5"
+);
+//tl.set(".loader", { display: "none" });
+tl.to(
+  ".loader",
+  {
+    yPercent: -100,
+    stagger: {
+      amount: 0.35,
+      from: "start",
+    },
+    duration: 1.35,
+    ease: "power2.inOut",
+
+    onComplete: () => {
+      $(".loader").css("display", "none");
+    },
+  },
+  "<0.5"
+);
+
+tl.from(
+  ".bg_img",
+  {
+    scale: 2.5,
+    ease: "power2.inOut",
+    duration: 1.25,
+  },
+  "<0.35"
+);
+
+// tl.from(
+//   scramble,
+//   {
+//     duration: 4,
+//     stagger: 0.1,
+
+//     scrambleText: {
+//       speed: 0.3,
+//       ease: "power2.inOut",
+//       text: "{original}",
+//       chars: "+NINJA84564XERSHKZN",
+//     },
+//   },
+//   "<"
+// );
+
+tl.from(
+  ".clock-number",
+
+  {
+    opacity: 0,
+    filter: "blur(60px)",
+    yPercent: 100,
+
+    stagger: { amount: 0.4, from: "start" },
+    duration: 1,
+    ease: "power2.inOut",
+  },
+  "<"
+);
+
+tl.from(
+  ".countdown_title .char",
+
+  {
+    yPercent: 200,
+    filter: "blur(105px)",
+    stagger: { from: "center", each: 1.1, amount: 0.15, ease: "power2.Out" },
+
+    // duration: 0.5,
+    // stagger: { amount: 0.15 },
+    // ease: "power3.inOut",
+  },
+  "<0.15"
+);
+
+tl.from(
+  ".clock-id .char",
+
+  {
+    yPercent: 200,
+    filter: "blur(10px)",
+    stagger: { from: "start", amount: 0.5, ease: "power2.Out" },
+    // stagger: { amount: 0.5 },
+    // ease: "power3.out",
+  },
+  "<45%"
+);
+
+tl.from(
+  ".form-label2 .char",
+  {
+    yPercent: 200,
+    filter: "blur(5px)",
+    stagger: { from: "center", amount: 0.2 },
+    // duration: 1,
+    ease: "power2.out",
+  },
+  "<"
+);
+
+tl.from(
+  ".get_notified",
+  {
+    opacity: 0,
+    yPercent: 200,
+    duration: 0.5,
+    ease: "power2.inOut",
+    //duration: 1,
+  },
+  "<"
+);
